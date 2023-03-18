@@ -1,0 +1,215 @@
+name: tsed_testbed_dev.db
+desc: ""
+tables:
+- name: food_item
+  type: table
+  comment: ""
+  columns:
+  - name: id
+    type: integer
+    nullable: true
+    default: null
+    comment: ""
+  - name: name
+    type: varchar(255)
+    nullable: false
+    default: null
+    comment: ""
+  - name: description
+    type: text
+    nullable: true
+    default: null
+    comment: ""
+  indexes: []
+  constraints:
+  - name: id
+    type: PRIMARY KEY
+    def: PRIMARY KEY (id)
+    table: food_item
+    referencedTable: null
+    columns:
+    - id
+    referencedColumns: []
+    comment: ""
+  triggers: []
+  def: |-
+    CREATE TABLE food_item (
+        id integer PRIMARY KEY,
+        name varchar(255) not null,
+        description text
+    )
+- name: food_combo
+  type: table
+  comment: ""
+  columns:
+  - name: id
+    type: integer
+    nullable: true
+    default: null
+    comment: ""
+  - name: name
+    type: varchar(255)
+    nullable: false
+    default: null
+    comment: ""
+  indexes: []
+  constraints:
+  - name: id
+    type: PRIMARY KEY
+    def: PRIMARY KEY (id)
+    table: food_combo
+    referencedTable: null
+    columns:
+    - id
+    referencedColumns: []
+    comment: ""
+  triggers: []
+  def: |-
+    CREATE TABLE food_combo (
+        id integer PRIMARY KEY,
+        name varchar(255) not null
+    )
+- name: food_combo_item
+  type: table
+  comment: ""
+  columns:
+  - name: food_combo_id
+    type: integer
+    nullable: false
+    default: null
+    comment: ""
+  - name: food_item_id
+    type: integer
+    nullable: false
+    default: null
+    comment: ""
+  indexes:
+  - name: sqlite_autoindex_food_combo_item_1
+    def: PRIMARY KEY (food_combo_id, food_item_id)
+    table: food_combo_item
+    columns:
+    - food_combo_id
+    - food_item_id
+    comment: ""
+  constraints:
+  - name: food_combo_id
+    type: PRIMARY KEY
+    def: PRIMARY KEY (food_combo_id)
+    table: food_combo_item
+    referencedTable: null
+    columns:
+    - food_combo_id
+    referencedColumns: []
+    comment: ""
+  - name: food_item_id
+    type: PRIMARY KEY
+    def: PRIMARY KEY (food_item_id)
+    table: food_combo_item
+    referencedTable: null
+    columns:
+    - food_item_id
+    referencedColumns: []
+    comment: ""
+  - name: "- (Foreign key ID: 0)"
+    type: FOREIGN KEY
+    def: FOREIGN KEY (food_item_id) REFERENCES food_item (id) ON UPDATE NO ACTION ON DELETE NO ACTION MATCH NONE
+    table: food_combo_item
+    referencedTable: food_item
+    columns:
+    - food_item_id
+    referencedColumns:
+    - id
+    comment: ""
+  - name: "- (Foreign key ID: 1)"
+    type: FOREIGN KEY
+    def: FOREIGN KEY (food_combo_id) REFERENCES food_combo (id) ON UPDATE NO ACTION ON DELETE NO ACTION MATCH NONE
+    table: food_combo_item
+    referencedTable: food_combo
+    columns:
+    - food_combo_id
+    referencedColumns:
+    - id
+    comment: ""
+  - name: sqlite_autoindex_food_combo_item_1
+    type: PRIMARY KEY
+    def: PRIMARY KEY (food_combo_id, food_item_id)
+    table: food_combo_item
+    referencedTable: null
+    columns:
+    - food_combo_id
+    - food_item_id
+    referencedColumns: []
+    comment: ""
+  triggers: []
+  def: |-
+    CREATE TABLE food_combo_item (
+        food_combo_id integer not null,
+        food_item_id integer not null,
+        
+        foreign key (food_combo_id)
+            references food_combo (id),
+    
+        foreign key (food_item_id)
+            references food_item (id),
+    
+        PRIMARY KEY (food_combo_id, food_item_id)
+    )
+- name: scheduled_delivery
+  type: table
+  comment: ""
+  columns:
+  - name: id
+    type: integer
+    nullable: true
+    default: null
+    comment: ""
+  - name: food_combo_id
+    type: integer
+    nullable: false
+    default: null
+    comment: ""
+  - name: arrival_time
+    type: integer
+    nullable: true
+    default: null
+    comment: ""
+  indexes: []
+  constraints:
+  - name: id
+    type: PRIMARY KEY
+    def: PRIMARY KEY (id)
+    table: scheduled_delivery
+    referencedTable: null
+    columns:
+    - id
+    referencedColumns: []
+    comment: ""
+  triggers: []
+  def: |-
+    CREATE TABLE scheduled_delivery (
+        id integer PRIMARY KEY,
+        food_combo_id integer not null,
+        arrival_time integer
+    )
+relations:
+- table: food_combo_item
+  columns:
+  - food_item_id
+  parentTable: food_item
+  parentColumns:
+  - id
+  def: FOREIGN KEY (food_item_id) REFERENCES food_item (id) ON UPDATE NO ACTION ON DELETE NO ACTION MATCH NONE
+  virtual: false
+- table: food_combo_item
+  columns:
+  - food_combo_id
+  parentTable: food_combo
+  parentColumns:
+  - id
+  def: FOREIGN KEY (food_combo_id) REFERENCES food_combo (id) ON UPDATE NO ACTION ON DELETE NO ACTION MATCH NONE
+  virtual: false
+functions: []
+driver:
+  name: sqlite
+  databaseVersion: 3.36.0
+  meta: null

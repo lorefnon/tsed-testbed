@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "db:setup": "cat src/config/db/setup.sql | sqlite3 /tmp/tsed_testbed_dev.db",
+    "db:schema:dump": "tbls out sqlite:///tmp/tsed_testbed_dev.db -t yaml -o src/config/db/schema.yaml",
+    "db:codegen": "ts-sql-codegen --schema src/config/db/schema.yaml --output-dir src/datasources/generated --connection-source src/datasources/DBConnection --export-table-instances --export-row-types --export-table-classes --export-values-types --export-extracted-columns",
     "build": "npm run barrels && tsc --project tsconfig.compile.json",
     "barrels": "barrelsby --config .barrelsby.json",
     "start": "npm run barrels && tsnd --inspect --exit-child --cls --ignore-watch node_modules --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
@@ -37,6 +40,7 @@
     "@tsed/swagger": "^7.18.2",
     "ajv": "^8.12.0",
     "barrelsby": "^2.5.1",
+    "better-sqlite3": "^8.2.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "dotenv-expand": "^10.0.0",
@@ -47,11 +51,13 @@
     "koa-override": "^3.0.0",
     "koa-qs": "^3.0.0",
     "sqlite3": "^5.1.6",
+    "ts-sql-query": "^1.50.0",
     "typeorm": "^0.3.12"
   },
   "devDependencies": {
     "@tsed/cli-plugin-jest": "4.4.3",
     "@tsed/cli-plugin-typeorm": "4.4.3",
+    "@types/better-sqlite3": "^7.6.3",
     "@types/jest": "^29.5.0",
     "@types/koa": "^2.13.5",
     "@types/koa__cors": "^4.0.0",
@@ -69,6 +75,7 @@
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "ts-sql-codegen": "^3.9.0",
     "tsconfig-paths": "^4.1.2",
     "tslib": "^2.5.0",
     "typescript": "^5.0.2"
