@@ -1,0 +1,13 @@
+{
+  "name": "@tsed-testbed/parent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "lorefnon",
+  "license": "UNLICENSED",
+  "description": "Sample project to explore REST API integration with tsed and react",
+  "workspaces": [
+    "modules/client",
+    "modules/server"
+  ]
+}
