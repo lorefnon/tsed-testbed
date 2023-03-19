@@ -1,11 +1,11 @@
-import {join} from "path";
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import { join } from "path";
+import { Configuration, Inject } from "@tsed/di";
+import { PlatformApplication } from "@tsed/common";
 import "@tsed/platform-koa"; // /!\ keep this import
 import "@tsed/ajv";
 import "@tsed/swagger";
-import {config} from "./config/index";
-import * as rest from "./controllers/rest/index";
+import { config } from "./config/index";
+import * as api from "./controllers/api/index";
 import * as pages from "./controllers/pages/index";
 
 @Configuration({
@@ -15,8 +15,8 @@ import * as pages from "./controllers/pages/index";
   httpsPort: false, // CHANGE
   disableComponentsScan: true,
   mount: {
-    "/rest": [
-      ...Object.values(rest)
+    "/api": [
+      ...Object.values(api)
     ],
     "/": [
       ...Object.values(pages)
@@ -43,7 +43,13 @@ import * as pages from "./controllers/pages/index";
   },
   exclude: [
     "**/*.spec.ts"
-  ]
+  ],
+  statics: [{
+    "/": [{
+      root: './public',
+      hook: "$beforeRoutesInit"
+    }]
+  }]
 })
 export class Server {
   @Inject()
