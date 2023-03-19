@@ -3,7 +3,7 @@ ARG NODE_VERSION=18.12.1
 FROM node:${NODE_VERSION}-alpine as build
 WORKDIR /opt
 
-COPY package.json package-lock.lock tsconfig.json tsconfig.compile.json .barrelsby.json ./
+COPY package.json package-lock.json tsconfig.json tsconfig.compile.json .barrelsby.json ./
 
 RUN npm ci
 
@@ -21,6 +21,7 @@ COPY --from=build /opt .
 RUN npm ci
 
 COPY ./views ./views
+COPY ./public ./public
 COPY processes.config.js .
 
 EXPOSE 8081

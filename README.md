@@ -1,11 +1,11 @@
 # About
 
-This mini-projects illustrates end-to-end integration of following technologies:
+This mini-project illustrates end-to-end integration of following technologies:
 
 - [Koa](https://www.npmjs.com/package/koa) - HTTP Middleware Framework for Node.js
 - [Ts.ED](https://tsed.io) - High level server side API framework
 - [OpenAPI](https://www.openapis.org) - For contract driven RESTful API Development
-- [Sqlite]() - minimal persistence technology
+- [Sqlite](https://www.sqlite.org/index.html) - self-contained embedded database engine
 - [ts-sql-query](ts-sql-query.readthedocs.io) - type-safe data mapper for relational databases
 - [Jotai](https://jotai.org) - Client side state management
 - [React](https://react.dev) - UI management library
@@ -14,6 +14,8 @@ This mini-projects illustrates end-to-end integration of following technologies:
 - [Typescript](https://www.typescriptlang.org) - One language to bind them all
 
 # Running the application
+
+A tar archive of docker image is attached in the Releases section. This can be loaded in a docker server through [docker load](https://docs.docker.com/engine/reference/commandline/load/) command.
 
 # Architecture
 
@@ -49,7 +51,7 @@ For updating schema:
 ```
 cd modules/server
 npm run dev # Runs development server - auto reloads on changes
-npm run test # Run unit/integration tests
+npm run test # Runs unit/integration tests
 ```
 
 Access swagger ui at `http://localhost:8083/doc` to test the API.
