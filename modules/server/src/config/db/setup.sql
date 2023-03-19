@@ -14,7 +14,7 @@ create table if not exists food_combo (
 create table if not exists food_combo_item (
     food_combo_id integer not null,
     food_item_id integer not null,
-    
+
     foreign key (food_combo_id)
         references food_combo (id),
 
