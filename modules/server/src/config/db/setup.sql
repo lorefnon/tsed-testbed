@@ -31,5 +31,10 @@ create table if not exists scheduled_delivery (
 
     foreign key (food_combo_id)
         references food_combo (id)
-)
+);
 
+create index idx_food_combo__name
+on food_combo (name);
+
+create index idx_scheduled_delivery__arrival_time
+on scheduled_delivery (arrival_time);

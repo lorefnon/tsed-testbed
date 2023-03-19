@@ -4,5 +4,4 @@
 
 export * from "./FoodComboController";
 export * from "./FoodItemsController";
-export * from "./HelloWorldController";
 export * from "./ScheduledDeliveryController";

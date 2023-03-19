@@ -74,6 +74,7 @@ There is generally no need to restart servers manually.
 cd modules/client
 npm run build
 cd ../server
+npm run build
 docker build
 # Use any docker compatible tools eg. AWS ECS, K8s etc.
 ```
