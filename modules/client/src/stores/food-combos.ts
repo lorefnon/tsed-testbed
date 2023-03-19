@@ -6,6 +6,7 @@ import {
     FoodItemsControllerService,
 } from "../api/client";
 import { SyncState } from "../utils/types";
+import { useAlerts } from "./alerts";
 
 export const foodCombosAtom = atom<{
     syncState: SyncState;
@@ -17,24 +18,33 @@ export const foodCombosAtom = atom<{
 
 export const useFoodCombos = (opts?: { autoFetch?: boolean }) => {
     const [foodCombos, setFoodCombos] = useAtom(foodCombosAtom);
+    const { appendError } = useAlerts()
 
     const loadFoodCombos = async () => {
-        const { entities } = await FoodComboControllerService.findAllNamed();
-        setFoodCombos({
-            entities: entities ?? [],
-            syncState: "synced",
-        });
+        try {
+            const { entities } = await FoodComboControllerService.findAllNamed();
+            setFoodCombos({
+                entities: entities ?? [],
+                syncState: "synced",
+            });
+        } catch (e) {
+            appendError(e)
+        }
     };
 
     const loadItems = async (comboId: number) => {
-        const { entities: items } =
-            await FoodItemsControllerService.findByCombo(comboId);
-        setFoodCombos((prev) => ({
-            ...prev,
-            entities: prev.entities.map((entity) =>
-                entity.id === comboId ? { ...entity, items } : entity
-            ),
-        }));
+        try {
+            const { entities: items } =
+                await FoodItemsControllerService.findByCombo(comboId);
+            setFoodCombos((prev) => ({
+                ...prev,
+                entities: prev.entities.map((entity) =>
+                    entity.id === comboId ? { ...entity, items } : entity
+                ),
+            }));
+        } catch (e) {
+            appendError(e)
+        }
     };
 
     useEffect(() => {

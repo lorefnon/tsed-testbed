@@ -11,7 +11,7 @@ export class FoodCombo {
   @Property()
   name?: string
 
-  @Property()
+  @Property(FoodItem)
   items?: FoodItem[]
 }
 

@@ -8,6 +8,7 @@ import FoodComboBuilderForm from "./FoodComboBuilderForm";
 import FoodComboItemList from "./FoodComboItemList";
 import { useFoodCombos } from "../stores/food-combos";
 import { useScheduledDeliveries } from "../stores/scheduled-deliveries";
+import { useAlerts } from "../stores/alerts";
 
 export default function ScheduledDeliveryForm(p: {
   delivery?: ScheduledDelivery | null;
@@ -17,12 +18,16 @@ export default function ScheduledDeliveryForm(p: {
       arrivalTime: +addDays(new Date(), 1),
     }
   );
-  const [isCreatingCombo, setCreatingCombo] = useState(false);
+  const { appendError } = useAlerts();
   const { createDelivery } = useScheduledDeliveries();
 
   const isCreating = !formState.id;
+  const isCreatingCombo = !formState.foodCombo?.id;
 
   const handleSubmit = (e: FormEvent) => {
+    if (!formState.arrivalTime) {
+      appendError("Date is mandatory");
+    }
     createDelivery(formState).then((delivery) => {
       setFormState(delivery!);
     });
@@ -44,12 +49,19 @@ export default function ScheduledDeliveryForm(p: {
   };
 
   return (
-    <Form layout="vertical" onFinish={handleSubmit}>
+    <Form
+      layout="vertical"
+      onFinish={handleSubmit}
+      style={{ margin: "10px 20px" }}
+    >
       <h1>
         {isCreating ? "New Food Truck Delivery" : "Update Food Truck Delivery"}
       </h1>
-      <Form.Item label="Delivery Date">
+      <Form.Item label="Delivery Date" required>
         <DatePicker
+          value={
+            p.delivery?.arrivalTime ? new Date(p.delivery.arrivalTime) : null
+          }
           showTime={{ format: "HH:mm" }}
           onChange={(date) => {
             if (!date) return;
@@ -61,7 +73,10 @@ export default function ScheduledDeliveryForm(p: {
           disabledDate={pastDayPredicate}
         />
       </Form.Item>
-      <Form.Item label="Food combo">
+      <Form.Item
+        label="Food combo"
+        help="You can create a new combination or use a previously saved combination"
+      >
         <FoodComboSelectionList
           onSelectNew={() => {
             setFormState((prev) => ({
@@ -70,7 +85,6 @@ export default function ScheduledDeliveryForm(p: {
                 items: [],
               },
             }));
-            setCreatingCombo(true);
           }}
           onSelect={(id) => {
             if (id) {
@@ -97,10 +111,14 @@ export default function ScheduledDeliveryForm(p: {
       ) : formState.foodCombo ? (
         <>
           <FoodComboItemList foodCombo={formState.foodCombo} />
-          <Button onClick={cloneCombo}>Clone</Button>
+          <Form.Item>
+            <Button onClick={cloneCombo}>Clone</Button>
+          </Form.Item>
         </>
       ) : null}
-      <Button htmlType="submit">Submit</Button>
+      <Form.Item>
+        <Button htmlType="submit">Submit</Button>
+      </Form.Item>
     </Form>
   );
 }
