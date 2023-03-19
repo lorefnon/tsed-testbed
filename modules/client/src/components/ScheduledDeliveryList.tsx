@@ -6,10 +6,18 @@ import Alert from "antd/es/alert";
 import Card from "antd/es/card";
 import Button from "antd/es/button";
 import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import DatePicker from "./DatePicker";
+import { useMemo, useState } from "react";
 
 export default function ScheduledDeliveryList() {
+  const [date, setDate] = useState<Date>(new Date());
+
+  const dateStr = useMemo(() => {
+    return format(date, "yyyy-MM-dd");
+  }, [date]);
+
   const { entities: deliveries, syncState } = useScheduledDeliveriesForDate({
-    date: format(new Date(), "yyyy-MM-dd"),
+    date: dateStr,
   });
 
   if (syncState === "pending") {
@@ -18,14 +26,26 @@ export default function ScheduledDeliveryList() {
 
   return (
     <div>
-      <Alert
-        type="info"
-        message={`Deliveries scheduled: ${deliveries?.length || "None"}`}
-        showIcon
-        style={{
-          margin: "0 10px",
-        }}
-      />
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <DatePicker
+          value={date}
+          onChange={(next) => {
+            if (next) setDate(next);
+          }}
+          style={{
+            margin: "0 0 0 10px",
+          }}
+        />
+        <Alert
+          type="info"
+          message={`Deliveries scheduled: ${deliveries?.length || "None"}`}
+          showIcon
+          style={{
+            margin: "0 10px",
+            flexGrow: 1
+          }}
+        />
+      </div>
       <ul style={{ paddingInlineStart: 0, listStyle: "none" }}>
         {deliveries?.map((delivery) => (
           <li>

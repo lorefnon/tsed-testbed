@@ -51,7 +51,7 @@ export class FoodComboRepo extends BaseRepo {
         })
         .executeInsertMany();
       entities = this.applyIds(returned, entities);
-      const items = entities.flatMap((entity) => entity.items ?? []);
+      const items = entities.flatMap((entity) => entity.items?.filter(it => !it.id) ?? []);
       if (items.length > 0) {
         await this.foodItemRepo.insertMany(items, conn);
         await this.associateItems(entities);

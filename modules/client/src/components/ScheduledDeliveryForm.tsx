@@ -60,7 +60,7 @@ export default function ScheduledDeliveryForm(p: {
       <Form.Item label="Delivery Date" required>
         <DatePicker
           value={
-            p.delivery?.arrivalTime ? new Date(p.delivery.arrivalTime) : null
+            formState?.arrivalTime ? new Date(formState.arrivalTime) : null
           }
           showTime={{ format: "HH:mm" }}
           onChange={(date) => {
@@ -78,6 +78,7 @@ export default function ScheduledDeliveryForm(p: {
         help="You can create a new combination or use a previously saved combination"
       >
         <FoodComboSelectionList
+          value={p.delivery?.foodCombo?.id}
           onSelectNew={() => {
             setFormState((prev) => ({
               ...prev,
