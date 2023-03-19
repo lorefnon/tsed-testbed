@@ -20,7 +20,7 @@ export class ScheduledDeliveryControllerService {
     ): CancelablePromise<ScheduledDeliveryPayload> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/rest/scheduled-deliveries',
+            url: '/api/scheduled-deliveries',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -36,7 +36,7 @@ export class ScheduledDeliveryControllerService {
     ): CancelablePromise<ScheduledDeliveryListPayload> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/rest/scheduled-deliveries',
+            url: '/api/scheduled-deliveries',
             query: {
                 'date': date,
             },

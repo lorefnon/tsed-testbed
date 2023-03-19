@@ -20,7 +20,7 @@ export class FoodItemsControllerService {
     ): CancelablePromise<FoodItemPayload> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/rest/food-items',
+            url: '/api/food-items',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -36,7 +36,7 @@ export class FoodItemsControllerService {
     ): CancelablePromise<FoodItemListPayload> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/rest/food-combos/{foodComboId}/items',
+            url: '/api/food-combos/{foodComboId}/items',
             path: {
                 'foodComboId': foodComboId,
             },

@@ -16,7 +16,7 @@ export class FoodComboControllerService {
     public static findAllNamed(): CancelablePromise<FoodComboListPayload> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/rest/food-combos/named',
+            url: '/api/food-combos/named',
         });
     }
 

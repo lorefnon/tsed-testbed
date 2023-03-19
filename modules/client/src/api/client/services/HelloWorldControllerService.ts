@@ -14,7 +14,7 @@ export class HelloWorldControllerService {
     public static get(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/rest/hello-world',
+            url: '/api/hello-world',
         });
     }
 
