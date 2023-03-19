@@ -15,7 +15,7 @@ This mini-project illustrates end-to-end integration of following technologies:
 
 # Running the application
 
-A tar archive of docker image is attached in the Releases section. This can be loaded in a docker server through [docker load](https://docs.docker.com/engine/reference/commandline/load/) command.
+A [tar archive](https://github.com/lorefnon/tsed-testbed/releases/download/v1.0.0/tsed-testbed-container.tar.gz) of docker image is attached in the Releases section. This can be loaded in a docker server through [docker load](https://docs.docker.com/engine/reference/commandline/load/) command.
 
 # Architecture
 
