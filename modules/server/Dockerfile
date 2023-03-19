@@ -30,6 +30,7 @@ EXPOSE 8081
 ENV PORT 8081
 ENV NODE_ENV production
 
-RUN npm run db:setup
+ENV DB_PATH /data/tsed_testbed.db
+RUN mkdir -p /data && cat src/config/db/setup.sql | sqlite3 /data/tsed_testbed.db
 
 CMD ["pm2-runtime", "start", "processes.config.js", "--env", "production"]

@@ -1,6 +1,9 @@
 import { atom, useAtom } from "jotai";
 import { useEffect, useMemo } from "react";
 import {
+    FoodCombo,
+    FoodItem,
+    FoodItemsControllerService,
     ScheduledDelivery,
     ScheduledDeliveryControllerService,
 } from "../api/client";
@@ -17,14 +20,29 @@ export const scheduledDeliveriesAtom = atom<{
     byDate: {}
 });
 
+export interface ScheduledDeliveryUpsertInput extends ScheduledDelivery {
+  foodCombo?: FoodCombo & {
+    items?: Array<FoodItem & {
+      isUpdated?: boolean
+    }>
+  }
+}
+
 export const useScheduledDeliveries = () => {
     const [scheduledDeliveries, setScheduledDeliveries] = useAtom(
         scheduledDeliveriesAtom
     );
     const { appendAlert, appendError } = useAlerts()
 
-    const createDelivery = async (entity: ScheduledDelivery) => {
+    const upsertDelivery = async (entity: ScheduledDeliveryUpsertInput) => {
         try {
+            for (const item of entity?.foodCombo?.items ?? []) {
+                if (item.id && item.isUpdated) {
+                    await FoodItemsControllerService.upsertOne({
+                        entity: item
+                    })
+                }
+            }
             const resp =
                 await ScheduledDeliveryControllerService.upsertOne({
                     entity,
@@ -50,7 +68,7 @@ export const useScheduledDeliveries = () => {
     };
 
     return {
-        createDelivery,
+        upsertDelivery,
         ...scheduledDeliveries,
     };
 };

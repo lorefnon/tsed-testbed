@@ -6,7 +6,6 @@ import "@tsed/ajv";
 import "@tsed/swagger";
 import { config } from "./config/index";
 import * as api from "./controllers/api/index";
-import * as pages from "./controllers/pages/index";
 
 @Configuration({
   ...config,

@@ -6,21 +6,21 @@ import { ScheduledDelivery } from "../api/client";
 import FoodComboSelectionList from "./FoodComboSelectionList";
 import FoodComboBuilderForm from "./FoodComboBuilderForm";
 import FoodComboItemList from "./FoodComboItemList";
-import { useFoodCombos } from "../stores/food-combos";
-import { useScheduledDeliveries } from "../stores/scheduled-deliveries";
+import { ScheduledDeliveryUpsertInput, useScheduledDeliveries } from "../stores/scheduled-deliveries";
 import { useAlerts } from "../stores/alerts";
 import { NumberParam, useQueryParam } from "use-query-params";
+
 
 export default function ScheduledDeliveryForm(p: {
   delivery?: ScheduledDelivery | null;
 }) {
-  const [formState, setFormState] = useState<ScheduledDelivery>(
+  const [formState, setFormState] = useState<ScheduledDeliveryUpsertInput>(
     p.delivery ?? {
       arrivalTime: +addDays(new Date(), 1),
     }
   );
   const { appendError } = useAlerts();
-  const { createDelivery } = useScheduledDeliveries();
+  const { upsertDelivery } = useScheduledDeliveries();
   const [, setScheduleId] = useQueryParam("scheduleId", NumberParam);
 
   const isCreating = !formState.id;
@@ -30,23 +30,20 @@ export default function ScheduledDeliveryForm(p: {
     if (!formState.arrivalTime) {
       appendError("Date is mandatory");
     }
-    createDelivery(formState).then((delivery) => {
+    upsertDelivery(formState).then((delivery) => {
       setScheduleId(delivery.id);
       setFormState(delivery!);
     });
   };
-  const foodCombos = useFoodCombos({ autoFetch: false });
 
   const cloneCombo = () => {
     const comboId = formState?.foodCombo?.id;
     if (!comboId) return;
-    const combo = foodCombos.entities.find((entity) => entity.id === comboId);
-    if (!combo) return;
     setFormState((prev) => ({
       ...prev,
       foodCombo: {
-        name: `${combo.name} Copy`,
-        items: combo.items,
+        name: `${formState.foodCombo?.name ?? "Food Combo"} Copy`,
+        items: formState.foodCombo?.items,
       },
     }));
   };

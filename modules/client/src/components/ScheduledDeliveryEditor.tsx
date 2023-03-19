@@ -4,7 +4,7 @@ import { useScheduledDeliveries } from "../stores/scheduled-deliveries"
 import ScheduledDeliveryForm from "./ScheduledDeliveryForm"
 
 export default function ScheduledDeliveryEditor() {
-  const [scheduleId] = useQueryParam('scheduleId', NumberParam)
+  const [scheduleId, setScheduleId] = useQueryParam('scheduleId', NumberParam)
   const [,setTabKey] = useQueryParam('tab', StringParam)
   const scheduledDeliveries = useScheduledDeliveries()
 
@@ -13,6 +13,7 @@ export default function ScheduledDeliveryEditor() {
   useEffect(() => {
     if (scheduleId && !delivery) {
         setTabKey('explore')
+        setScheduleId(null)
     }
   }, [])
 

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FoodCombo, FoodItem } from "../api/client";
 import Input from "antd/es/input";
 import Form from "antd/es/form";
@@ -54,7 +54,7 @@ export default function FoodComboBuilderForm(p: {
         {items.map((item, idx) => {
           return (
             <li
-              key={item.id}
+              key={item.id ?? '$new'}
               style={{
                 border: "1px solid #ddd",
                 padding: "10px",
@@ -70,6 +70,7 @@ export default function FoodComboBuilderForm(p: {
                   right: "5px",
                   padding: "5px",
                   border: "none",
+                  zIndex: 1
                 }}
                 onClick={() => {
                   if (newItem) setNewItem(null);
@@ -94,6 +95,7 @@ export default function FoodComboBuilderForm(p: {
                       updateAt(idx, (item) => ({
                         ...item,
                         name,
+                        isUpdated: true
                       }))
                     );
                   }}
@@ -111,6 +113,7 @@ export default function FoodComboBuilderForm(p: {
                       updateAt(idx, (item) => ({
                         ...item,
                         description,
+                        isUpdated: true
                       }))
                     );
                   }}

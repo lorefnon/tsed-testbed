@@ -54,8 +54,8 @@ export class FoodComboRepo extends BaseRepo {
       const items = entities.flatMap((entity) => entity.items?.filter(it => !it.id) ?? []);
       if (items.length > 0) {
         await this.foodItemRepo.insertMany(items, conn);
-        await this.associateItems(entities);
       }
+      await this.associateItems(entities);
       return entities;
     });
   }

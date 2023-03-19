@@ -66,21 +66,3 @@ Edit `.barreslby.json` to customize it:
 }
 ```
 
-## Manual Setup
-
-### Prerequisites
-
-- Sqlite3
-- Node.js
-
-### Database
-
-For simplicity a sqlite database is used. A setup file is available to bootstrap the schema expected by application.
-
-```sql
-# cd tsed-testbed/modules/server
-
-cat src/config/db/setup.sql | sqlite3 /tmp/tsed_testbed_dev.db
-```
-
-

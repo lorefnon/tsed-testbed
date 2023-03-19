@@ -9,7 +9,7 @@ This mini-project illustrates end-to-end integration of following technologies:
 - [ts-sql-query](ts-sql-query.readthedocs.io) - type-safe data mapper for relational databases
 - [Jotai](https://jotai.org) - Client side state management
 - [React](https://react.dev) - UI management library
-- [Antd](https://ant.design) - UI Component library
+- [Antd](https://ant.design) - Responsive UI Component library
 - [Vite](vitejs.dev/guide/) - Asset bundling
 - [Typescript](https://www.typescriptlang.org) - One language to bind them all
 

@@ -5,6 +5,7 @@ import AlertList from "./components/AlertList";
 import ScheduledDeliveryEditor from "./components/ScheduledDeliveryEditor";
 import ScheduledDeliveryList from "./components/ScheduledDeliveryList";
 
+/* Top level component */
 function App() {
   const [tabKey, setTabKey] = useQueryParam('tab', StringParam)
   const [scheduleId] = useQueryParam('scheduleId', NumberParam)
@@ -19,6 +20,7 @@ function App() {
           onChange={nextKey => {
             setTabKey(nextKey)
           }}
+          destroyInactiveTabPane
           items={[
             {
               key: "explore",
