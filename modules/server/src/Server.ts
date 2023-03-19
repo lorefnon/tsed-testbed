@@ -17,9 +17,6 @@ import * as pages from "./controllers/pages/index";
   mount: {
     "/api": [
       ...Object.values(api)
-    ],
-    "/": [
-      ...Object.values(pages)
     ]
   },
   swagger: [
@@ -44,12 +41,11 @@ import * as pages from "./controllers/pages/index";
   exclude: [
     "**/*.spec.ts"
   ],
-  statics: [{
+  statics: {
     "/": [{
-      root: './public',
-      hook: "$beforeRoutesInit"
+      root: `${process.cwd()}/public`,
     }]
-  }]
+  }
 })
 export class Server {
   @Inject()

@@ -1,5 +1,5 @@
 {
-  "directory": ["./src/controllers/api","./src/controllers/pages"],
+  "directory": ["./src/controllers/api"],
   "exclude": [
     "__mock__",
     "__mocks__",
