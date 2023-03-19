@@ -5,7 +5,7 @@ const generator = new Generator({
     schemaPath: path.join(__dirname, "../../config/db/schema.yaml"),
     connectionSourcePath: path.join(
         __dirname,
-        "../../datasources/DBConnection.ts"
+        "../../datasources/DBConnection"
     ),
     outputDirPath: path.join(__dirname, "../../datasources/generated/"),
     common: {
@@ -16,6 +16,7 @@ const generator = new Generator({
     export: {
         extractedColumns: true,
         tableInstances: true,
+        rowTypes: true
     },
 });
 

@@ -8,7 +8,7 @@ create table if not exists food_item (
 
 create table if not exists food_combo (
     id integer PRIMARY KEY,
-    name varchar(255) not null
+    name varchar(255)
 );
 
 create table if not exists food_combo_item (
@@ -27,7 +27,7 @@ create table if not exists food_combo_item (
 create table if not exists scheduled_delivery (
     id integer PRIMARY KEY,
     food_combo_id integer not null,
-    arrival_time integer,
+    arrival_time integer not null,
 
     foreign key (food_combo_id)
         references food_combo (id)

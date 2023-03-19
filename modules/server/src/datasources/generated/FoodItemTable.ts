@@ -5,7 +5,12 @@
  * Any changes will be overwritten.
  */
 import { Table } from "ts-sql-query/Table";
-import type { DBConnection } from "../DBConnection.ts";
+import type { DBConnection } from "../DBConnection";
+import {
+    InsertableRow,
+    UpdatableRow,
+    SelectedRow,
+} from "ts-sql-query/extras/types"
 import { extractColumnsFrom } from "ts-sql-query/extras/utils"
 
 export class FoodItemTable extends Table<DBConnection, 'FoodItemTable'> {
@@ -20,4 +25,7 @@ export class FoodItemTable extends Table<DBConnection, 'FoodItemTable'> {
 
 export const tFoodItem = new FoodItemTable();
 
+export type FoodItemIRow = InsertableRow<FoodItemTable>;
+export type FoodItemURow = UpdatableRow<FoodItemTable>;
+export type FoodItemSRow = SelectedRow<FoodItemTable>;
 export const tFoodItemCols = extractColumnsFrom(tFoodItem);

@@ -1,0 +1,32 @@
+{
+  "name": "@tsed-testbed/client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "openapi:codegen": "openapi --input http://localhost:8083/doc/swagger.json --output src/api/client",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "antd": "^5.3.1",
+    "date-fns": "^2.29.3",
+    "jotai": "^2.0.3",
+    "normalize.css": "^8.0.1",
+    "purecss": "^3.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "use-query-params": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "^3.2.0",
+    "openapi-typescript-codegen": "^0.23.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.2.0"
+  }
+}

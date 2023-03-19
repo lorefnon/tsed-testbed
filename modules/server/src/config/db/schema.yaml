@@ -49,7 +49,7 @@ tables:
     comment: ""
   - name: name
     type: varchar(255)
-    nullable: false
+    nullable: true
     default: null
     comment: ""
   indexes: []
@@ -67,7 +67,7 @@ tables:
   def: |-
     CREATE TABLE food_combo (
         id integer PRIMARY KEY,
-        name varchar(255) not null
+        name varchar(255)
     )
 - name: food_combo_item
   type: table
@@ -170,7 +170,7 @@ tables:
     comment: ""
   - name: arrival_time
     type: integer
-    nullable: true
+    nullable: false
     default: null
     comment: ""
   indexes: []
@@ -199,7 +199,7 @@ tables:
     CREATE TABLE scheduled_delivery (
         id integer PRIMARY KEY,
         food_combo_id integer not null,
-        arrival_time integer,
+        arrival_time integer not null,
     
         foreign key (food_combo_id)
             references food_combo (id)

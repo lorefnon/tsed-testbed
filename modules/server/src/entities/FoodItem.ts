@@ -1,4 +1,5 @@
 import { Description, Example, Property } from "@tsed/schema"
+import { WithId } from "src/utils/types"
 
 export class FoodItem {
   @Property()
@@ -10,5 +11,7 @@ export class FoodItem {
   name: string
 
   @Property()
-  description: string
+  description?: string
 }
+
+export type PersistedFoodItem = WithId<FoodItem>

@@ -25,7 +25,8 @@ import * as pages from "./controllers/pages/index";
   swagger: [
     {
       path: "/doc",
-      specVersion: "3.0.1"
+      specVersion: "3.0.1",
+      operationIdPattern: "%m"
     }
   ],
   middlewares: [

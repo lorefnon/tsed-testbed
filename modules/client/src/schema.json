@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "Api documentation", "version": "1.0.0" },
+  "paths": {
+    "/rest/food-combos/named": {
+      "get": {
+        "operationId": "findAllNamed",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodComboListPayload"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "parameters": [],
+        "tags": ["FoodComboController"]
+      }
+    },
+    "/rest/food-items": {
+      "put": {
+        "operationId": "upsertOne",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FoodItemPayload" }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FoodItemPayload" }
+            }
+          }
+        },
+        "tags": ["FoodItemsController"]
+      }
+    },
+    "/rest/food-combos/{foodComboId}/items": {
+      "get": {
+        "operationId": "findByCombo",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FoodItemListPayload" }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "foodComboId",
+            "required": true,
+            "schema": { "type": "number" }
+          }
+        ],
+        "tags": ["FoodItemsController"]
+      }
+    },
+    "/rest/hello-world": {
+      "get": {
+        "operationId": "get",
+        "responses": { "200": { "description": "Success" } },
+        "parameters": [],
+        "tags": ["HelloWorldController"]
+      }
+    },
+    "/rest/scheduled-deliveries": {
+      "post": {
+        "operationId": "createOne",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledDeliveryPayload"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduledDeliveryPayload"
+              }
+            }
+          }
+        },
+        "tags": ["ScheduledDeliveryController"]
+      },
+      "get": {
+        "operationId": "findByDate",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledDeliveryListPayload"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "tags": ["ScheduledDeliveryController"]
+      }
+    }
+  },
+  "tags": [
+    { "name": "FoodComboController" },
+    { "name": "FoodItemsController" },
+    { "name": "HelloWorldController" },
+    { "name": "ScheduledDeliveryController" }
+  ],
+  "components": {
+    "schemas": {
+      "FoodComboListPayload": {
+        "type": "object",
+        "properties": {
+          "entities": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FoodCombo" }
+          }
+        }
+      },
+      "FoodCombo": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "name": {
+            "type": "string",
+            "example": "Authentic chinese",
+            "description": "Description of food combination"
+          },
+          "items": { "type": "array" }
+        }
+      },
+      "FoodItemPayload": {
+        "type": "object",
+        "properties": { "entity": { "$ref": "#/components/schemas/FoodItem" } }
+      },
+      "FoodItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "name": {
+            "type": "string",
+            "example": "Gobi Manchurian",
+            "description": "Name of food item"
+          },
+          "description": { "type": "string" }
+        }
+      },
+      "FoodItemListPayload": {
+        "type": "object",
+        "properties": {
+          "entities": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FoodItem" }
+          }
+        }
+      },
+      "ScheduledDeliveryPayload": {
+        "type": "object",
+        "properties": {
+          "entity": { "$ref": "#/components/schemas/ScheduledDelivery" }
+        }
+      },
+      "ScheduledDelivery": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "foodCombo": { "$ref": "#/components/schemas/FoodCombo" },
+          "arrivalTime": { "type": "number" }
+        }
+      },
+      "ScheduledDeliveryListPayload": {
+        "type": "object",
+        "properties": {
+          "entities": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ScheduledDelivery" }
+          }
+        }
+      }
+    }
+  }
+}

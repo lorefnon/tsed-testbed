@@ -1,0 +1,14 @@
+.App__header {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.App__body {
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.App__body .ant-tabs-nav-wrap {
+  padding: 0 10px;
+}
