@@ -6,9 +6,5 @@
   "author": "lorefnon",
   "license": "UNLICENSED",
   "private": true,
-  "description": "Sample project to explore REST API integration with tsed and react",
-  "workspaces": [
-    "modules/client",
-    "modules/server"
-  ]
+  "description": "Sample project to explore REST API integration with tsed and react"
 }

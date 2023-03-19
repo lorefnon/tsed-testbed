@@ -27,7 +27,7 @@ function App() {
             },
             {
               key: "manage",
-              label: `${scheduleId ? 'Update' : 'Create'} delivery schedules`,
+              label: `${scheduleId ? 'Update' : 'Create'} delivery schedule`,
               children: <ScheduledDeliveryEditor />
             },
           ]}

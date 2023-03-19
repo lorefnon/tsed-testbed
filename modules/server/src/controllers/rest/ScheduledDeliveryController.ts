@@ -4,8 +4,8 @@ import { parse } from "date-fns";
 import { BodyParams, QueryParams } from "@tsed/platform-params";
 import { Get, Post, Property, Put, Returns } from "@tsed/schema";
 
-import { ScheduledDelivery } from "src/entities/ScheduledDelivery";
-import { ScheduledDeliveryRepo } from "src/repositories/ScheduledDeliveryRepo";
+import { ScheduledDelivery } from "../../entities/ScheduledDelivery";
+import { ScheduledDeliveryRepo } from "../../repositories/ScheduledDeliveryRepo";
 
 class ScheduledDeliveryPayload {
   @Property()

@@ -1,15 +1,15 @@
 import { Injectable } from "@tsed/di";
 import { BaseRepo } from "./BaseRepo";
-import { ConnectionProvider } from "src/datasources/ConnectionProvider";
-import { FoodCombo } from "src/entities/FoodCombo";
-import { tFoodComboItem } from "src/datasources/generated/FoodComboItemTable";
+import { ConnectionProvider } from "../datasources/ConnectionProvider";
+import { FoodCombo } from "../entities/FoodCombo";
+import { tFoodComboItem } from "../datasources/generated/FoodComboItemTable";
 import { FoodItemRepo } from "./FoodItemRepo";
-import { DBConnection } from "src/datasources/DBConnection";
+import { DBConnection } from "../datasources/DBConnection";
 import {
   FoodComboSRow,
   tFoodCombo,
   tFoodComboCols,
-} from "src/datasources/generated/FoodComboTable";
+} from "../datasources/generated/FoodComboTable";
 
 @Injectable()
 export class FoodComboRepo extends BaseRepo {

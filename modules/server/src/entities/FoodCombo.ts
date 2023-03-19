@@ -1,6 +1,6 @@
 import { Description, Example, Property } from "@tsed/schema";
 import { FoodItem, PersistedFoodItem } from "./FoodItem";
-import { WithId } from "src/utils/types";
+import { WithId } from "../utils/types";
 
 export class FoodCombo {
   @Property()

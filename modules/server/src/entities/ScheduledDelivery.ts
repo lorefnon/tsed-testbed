@@ -1,11 +1,11 @@
 import { Property } from "@tsed/schema";
 import { FoodCombo, PersistedFoodCombo } from "./FoodCombo";
-import { WithId } from "src/utils/types";
+import { WithId } from "../utils/types";
 
 export class ScheduledDelivery {
   @Property()
   id?: number
- 
+
   @Property()
   foodCombo: FoodCombo
 

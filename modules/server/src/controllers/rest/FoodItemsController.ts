@@ -1,9 +1,9 @@
 import { Controller } from "@tsed/di";
 import { BodyParams, PathParams } from "@tsed/platform-params";
 import { Get, Property, Put, Returns } from "@tsed/schema";
-import { FoodItem } from "src/entities/FoodItem";
-import { FoodItemRepo } from "src/repositories/FoodItemRepo";
-import { WithId } from "src/utils/types";
+import { FoodItem } from "../../entities/FoodItem";
+import { FoodItemRepo } from "../../repositories/FoodItemRepo";
+import { WithId } from "../../utils/types";
 
 class FoodItemPayload {
   @Property()

@@ -1,14 +1,14 @@
 import { Injectable } from "@tsed/di";
-import { ConnectionProvider } from "src/datasources/ConnectionProvider";
+import { ConnectionProvider } from "../datasources/ConnectionProvider";
 import {
   FoodItemSRow,
   tFoodItem,
   tFoodItemCols,
-} from "src/datasources/generated/FoodItemTable";
-import { FoodItem } from "src/entities/FoodItem";
+} from "../datasources/generated/FoodItemTable";
+import { FoodItem } from "../entities/FoodItem";
 import { BaseRepo } from "./BaseRepo";
-import { WithId } from "src/utils/types";
-import { tFoodComboItem } from "src/datasources/generated/FoodComboItemTable";
+import { WithId } from "../utils/types";
+import { tFoodComboItem } from "../datasources/generated/FoodComboItemTable";
 
 @Injectable()
 export class FoodItemRepo extends BaseRepo {

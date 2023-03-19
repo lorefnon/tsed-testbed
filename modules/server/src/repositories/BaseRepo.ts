@@ -1,6 +1,6 @@
-import { ConnectionProvider } from "src/datasources/ConnectionProvider";
-import { DBConnection } from "src/datasources/DBConnection";
-import { WithId } from "src/utils/types";
+import { ConnectionProvider } from "../datasources/ConnectionProvider";
+import { DBConnection } from "../datasources/DBConnection";
+import { WithId } from "../utils/types";
 
 export abstract class BaseRepo {
   constructor(protected connectionProvider: ConnectionProvider) {}

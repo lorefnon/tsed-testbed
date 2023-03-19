@@ -9,6 +9,7 @@ import FoodComboItemList from "./FoodComboItemList";
 import { useFoodCombos } from "../stores/food-combos";
 import { useScheduledDeliveries } from "../stores/scheduled-deliveries";
 import { useAlerts } from "../stores/alerts";
+import { NumberParam, useQueryParam } from "use-query-params";
 
 export default function ScheduledDeliveryForm(p: {
   delivery?: ScheduledDelivery | null;
@@ -20,6 +21,7 @@ export default function ScheduledDeliveryForm(p: {
   );
   const { appendError } = useAlerts();
   const { createDelivery } = useScheduledDeliveries();
+  const [, setScheduleId] = useQueryParam("scheduleId", NumberParam);
 
   const isCreating = !formState.id;
   const isCreatingCombo = !formState.foodCombo?.id;
@@ -29,6 +31,7 @@ export default function ScheduledDeliveryForm(p: {
       appendError("Date is mandatory");
     }
     createDelivery(formState).then((delivery) => {
+      setScheduleId(delivery.id);
       setFormState(delivery!);
     });
   };
