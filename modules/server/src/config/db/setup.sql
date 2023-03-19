@@ -27,6 +27,9 @@ create table if not exists food_combo_item (
 create table if not exists scheduled_delivery (
     id integer PRIMARY KEY,
     food_combo_id integer not null,
-    arrival_time integer
+    arrival_time integer,
+
+    foreign key (food_combo_id)
+        references food_combo (id)
 )
 

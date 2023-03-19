@@ -184,12 +184,25 @@ tables:
     - id
     referencedColumns: []
     comment: ""
+  - name: "- (Foreign key ID: 0)"
+    type: FOREIGN KEY
+    def: FOREIGN KEY (food_combo_id) REFERENCES food_combo (id) ON UPDATE NO ACTION ON DELETE NO ACTION MATCH NONE
+    table: scheduled_delivery
+    referencedTable: food_combo
+    columns:
+    - food_combo_id
+    referencedColumns:
+    - id
+    comment: ""
   triggers: []
   def: |-
     CREATE TABLE scheduled_delivery (
         id integer PRIMARY KEY,
         food_combo_id integer not null,
-        arrival_time integer
+        arrival_time integer,
+    
+        foreign key (food_combo_id)
+            references food_combo (id)
     )
 relations:
 - table: food_combo_item
@@ -201,6 +214,14 @@ relations:
   def: FOREIGN KEY (food_item_id) REFERENCES food_item (id) ON UPDATE NO ACTION ON DELETE NO ACTION MATCH NONE
   virtual: false
 - table: food_combo_item
+  columns:
+  - food_combo_id
+  parentTable: food_combo
+  parentColumns:
+  - id
+  def: FOREIGN KEY (food_combo_id) REFERENCES food_combo (id) ON UPDATE NO ACTION ON DELETE NO ACTION MATCH NONE
+  virtual: false
+- table: scheduled_delivery
   columns:
   - food_combo_id
   parentTable: food_combo

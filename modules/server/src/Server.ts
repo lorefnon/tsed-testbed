@@ -13,7 +13,7 @@ import * as pages from "./controllers/pages/index";
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,
   httpsPort: false, // CHANGE
-  disableComponentsScan: true
+  disableComponentsScan: true,
   mount: {
     "/rest": [
       ...Object.values(rest)
