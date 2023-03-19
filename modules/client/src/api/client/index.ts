@@ -17,5 +17,4 @@ export type { ScheduledDeliveryPayload } from './models/ScheduledDeliveryPayload
 
 export { FoodComboControllerService } from './services/FoodComboControllerService';
 export { FoodItemsControllerService } from './services/FoodItemsControllerService';
-export { HelloWorldControllerService } from './services/HelloWorldControllerService';
 export { ScheduledDeliveryControllerService } from './services/ScheduledDeliveryControllerService';

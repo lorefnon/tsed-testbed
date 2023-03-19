@@ -8,6 +8,7 @@ export default function AlertList() {
     <>
       {alerts.map((alert) => {
         <Alert
+          key={alert.id}
           message={alert.message}
           type={alert.type}
           onClose={() => dismiss(alert.id)}

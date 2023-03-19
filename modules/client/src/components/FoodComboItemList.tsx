@@ -13,10 +13,10 @@ export default function FoodComboItemList(p: { foodCombo: FoodCombo }) {
 
   return (
     <ul>
-      {p.foodCombo.items?.map((item) => (
-        <li>
-          {item.name}
-          {item.description}
+      {p.foodCombo.items?.map((item, index) => (
+        <li key={item.id}>
+          <div style={{ fontWeight: "bold" }}>{item.name}</div>
+          <div>{item.description}</div>
         </li>
       ))}
     </ul>

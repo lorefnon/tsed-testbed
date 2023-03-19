@@ -48,7 +48,7 @@ export default function ScheduledDeliveryList() {
       </div>
       <ul style={{ paddingInlineStart: 0, listStyle: "none" }}>
         {deliveries?.map((delivery) => (
-          <li>
+          <li key={delivery.id}>
             <ScheduledDeliveryListItem {...{ delivery }} />
           </li>
         ))}
@@ -70,7 +70,7 @@ export function ScheduledDeliveryListItem(p: { delivery: ScheduledDelivery }) {
       <h2>Items</h2>
       <ul>
         {p.delivery.foodCombo.items?.map((item) => (
-          <li>
+          <li key={item.id}>
             <h3>{item.name}</h3>
             <p>{item.description}</p>
           </li>
