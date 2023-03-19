@@ -1,6 +1,6 @@
 import { ScheduledDelivery } from "../api/client";
 import { format } from "date-fns";
-import { useScheduledDeliveriesForDate } from "../stores/scheduled-delivery";
+import { useScheduledDeliveriesForDate } from "../stores/scheduled-deliveries";
 
 export default function ScheduledDeliveryList() {
   const { entities: deliveries } = useScheduledDeliveriesForDate({

@@ -1,22 +1,20 @@
 import { atom, useAtom } from "jotai";
-import { format } from "date-fns";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
     ScheduledDelivery,
     ScheduledDeliveryControllerService,
 } from "../api/client";
 import { SyncState } from "../utils/types";
+import { ensureId, ensureNotNil } from "../utils/invariants";
 
-interface ScheduledDeliveriesState {
-    syncState: SyncState;
-    entities: ScheduledDelivery[];
-}
 
-export const scheduledDeliveriesAtom = atom<
-    Record<string, ScheduledDeliveriesState | undefined>
->({});
-
-const dateKeyFormat = "yyyy-MM-dd";
+export const scheduledDeliveriesAtom = atom<{
+    byId: Record<string, ScheduledDelivery | undefined>,
+    byDate: Record<string, { syncState: SyncState, ids: number[] } | undefined>
+}>({
+    byId: {},
+    byDate: {}
+});
 
 export const useScheduledDeliveries = () => {
     const [scheduledDeliveries, setScheduledDeliveries] = useAtom(
@@ -24,24 +22,20 @@ export const useScheduledDeliveries = () => {
     );
 
     const createDelivery = async (entity: ScheduledDelivery) => {
-        const { entity: delivery } =
+        const resp =
             await ScheduledDeliveryControllerService.upsertOne({
                 entity,
             });
+        const delivery = ensureNotNil(resp.entity)
+        const deliveryId = ensureId(delivery)
         if (delivery?.arrivalTime) {
-            const dateKey = format(delivery.arrivalTime, dateKeyFormat);
             setScheduledDeliveries((prev) => {
-                const prevEntities = prev[dateKey]?.entities;
-                if (!prevEntities) return prev;
                 return {
                     ...prev,
-                    [dateKey]: prev[dateKey]
-                        ? {
-                              syncState: "synced",
-                              ...prev[dateKey],
-                              entities: prevEntities.concat(delivery),
-                          }
-                        : undefined,
+                    byId: {
+                        ...prev.byId,
+                        [deliveryId]: delivery
+                    }
                 };
             });
         }
@@ -50,7 +44,7 @@ export const useScheduledDeliveries = () => {
 
     return {
         createDelivery,
-        scheduledDeliveries,
+        ...scheduledDeliveries,
     };
 };
 
@@ -71,14 +65,17 @@ export const useScheduledDeliveriesForDate = (opts: {
         const resp = await ScheduledDeliveryControllerService.findByDate(
             dateKey
         );
-        if (resp.entities)
-            setScheduledDeliveries((prev) => ({
-                ...prev,
-                [dateKey]: {
-                    syncState: "synced",
-                    entities: resp.entities!,
-                },
-            }));
+        if (!resp.entities) return
+        setScheduledDeliveries((prev) => {
+            const next = { ...prev, byId: { ...prev.byId }, byDate: { ...prev.byDate } }
+            next.byDate[dateKey] = { syncState: 'synced', ids: [] }
+            for (const entity of resp.entities ?? []) {
+                const id = ensureId(entity)
+                next.byId[id] = entity
+                next.byDate[dateKey]!.ids.push(id)
+            }
+            return next
+        });
     };
 
     useEffect(() => {
@@ -86,8 +83,16 @@ export const useScheduledDeliveriesForDate = (opts: {
         loadDeliveries();
     }, [dateKey]);
 
+    const entities = useMemo(() => {
+        const ids = scheduledDeliveries.byDate[opts.date]?.ids ?? []
+        return ids.map(id => ensureNotNil(scheduledDeliveries.byId[id]))
+    }, [scheduledDeliveries, opts.date])
+
+    const syncState = scheduledDeliveries.byDate[opts.date]?.syncState ?? 'pending'
+
     return {
         loadDeliveries,
-        ...scheduledDeliveries[dateKey],
+        entities,
+        syncState
     };
 };

@@ -7,10 +7,10 @@ import FoodComboSelectionList from "./FoodComboSelectionList";
 import FoodComboBuilderForm from "./FoodComboBuilderForm";
 import FoodComboItemList from "./FoodComboItemList";
 import { useFoodCombos } from "../stores/food-combos";
-import { useScheduledDeliveries } from "../stores/scheduled-delivery";
+import { useScheduledDeliveries } from "../stores/scheduled-deliveries";
 
 export default function ScheduledDeliveryForm(p: {
-  delivery?: ScheduledDelivery;
+  delivery?: ScheduledDelivery | null;
 }) {
   const [formState, setFormState] = useState<ScheduledDelivery>(
     p.delivery ?? {
