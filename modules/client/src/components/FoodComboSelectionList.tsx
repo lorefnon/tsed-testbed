@@ -1,13 +1,19 @@
-import { Select } from "antd";
+import Select from "antd/es/select";
 import { useMemo } from "react";
-import { useFoodCombos } from "../stores/food-combos";
+import { useNamedFoodCombos } from "../stores/food-combos";
 
-export default function FoodComboSelectionList(p: {
+/**
+ * Presents options for selecting between any of the previously saved food combinations
+ * or creating a new one
+ */
+export default function FoodComboSelectionList(props: {
   value?: number | null;
   onSelectNew?: () => void;
   onSelect?: (value: number | null) => void;
 }) {
-  const foodCombos = useFoodCombos();
+  const foodCombos = useNamedFoodCombos();
+
+  // Restructure item list to the shape expected by select dropdown component
   const selectOptions = useMemo(() => {
     return [
       {
@@ -23,13 +29,14 @@ export default function FoodComboSelectionList(p: {
       }) ?? []
     );
   }, [foodCombos.entities]);
+
   return (
     <Select
       options={selectOptions}
-      value={p.value}
+      value={props.value}
       onChange={(value) => {
-        if (value === -1) p.onSelectNew?.();
-        else p.onSelect?.(value);
+        if (value === -1) props.onSelectNew?.();
+        else props.onSelect?.(value);
       }}
     />
   );

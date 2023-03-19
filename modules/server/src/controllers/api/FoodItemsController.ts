@@ -19,6 +19,7 @@ class FoodItemListPayload {
 export class FoodItemsController {
   constructor(private foodItemRepo: FoodItemRepo) {}
 
+  /** Create or update a food item */
   @Put("/food-items")
   @Returns(200, FoodItemPayload)
   async upsertOne(@BodyParams() { entity }: FoodItemPayload): Promise<FoodItemPayload> {
@@ -33,6 +34,7 @@ export class FoodItemsController {
     }
   }
 
+  /** Find a food combo by id */
   @Get("/food-combos/:foodComboId/items")
   @Returns(200, FoodItemListPayload)
   async findByCombo(@PathParams("foodComboId") foodComboId: number) {

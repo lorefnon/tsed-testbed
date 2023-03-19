@@ -1,52 +1,65 @@
-import { FormEvent, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { addDays, endOfDay } from "date-fns";
 import DatePicker from "./DatePicker";
-import { Button, Form } from "antd";
+import Button from "antd/es/button";
+import Form from "antd/es/form";
 import { ScheduledDelivery } from "../api/client";
 import FoodComboSelectionList from "./FoodComboSelectionList";
 import FoodComboBuilderForm from "./FoodComboBuilderForm";
 import FoodComboItemList from "./FoodComboItemList";
-import { ScheduledDeliveryUpsertInput, useScheduledDeliveries } from "../stores/scheduled-deliveries";
+import {
+  ScheduledDeliveryUpsertInput,
+  useScheduledDeliveries,
+} from "../stores/scheduled-deliveries";
 import { useAlerts } from "../stores/alerts";
-import { NumberParam, useQueryParam } from "use-query-params";
+import { useDeliveryIdParam } from "../utils/query-param-hooks";
+import { useNamedFoodCombo } from "../stores/food-combos";
 
-
-export default function ScheduledDeliveryForm(p: {
+/** Presents form for creating/updating a scheduled delivery */
+export default function ScheduledDeliveryForm(props: {
   delivery?: ScheduledDelivery | null;
 }) {
   const [formState, setFormState] = useState<ScheduledDeliveryUpsertInput>(
-    p.delivery ?? {
+    props.delivery ?? {
       arrivalTime: +addDays(new Date(), 1),
     }
   );
   const { appendError } = useAlerts();
   const { upsertDelivery } = useScheduledDeliveries();
-  const [, setScheduleId] = useQueryParam("scheduleId", NumberParam);
+  const [, setDeliveryId] = useDeliveryIdParam();
 
   const isCreating = !formState.id;
   const isCreatingCombo = !formState.foodCombo?.id;
 
-  const handleSubmit = (e: FormEvent) => {
+  const { foodCombo } = useNamedFoodCombo({
+    id: formState?.foodCombo?.id,
+  });
+
+  const handleSubmit = useCallback(() => {
     if (!formState.arrivalTime) {
       appendError("Date is mandatory");
     }
     upsertDelivery(formState).then((delivery) => {
-      setScheduleId(delivery.id);
+      setDeliveryId(delivery.id);
       setFormState(delivery!);
     });
-  };
+  }, [formState]);
 
-  const cloneCombo = () => {
+  const cloneCombo = useCallback(() => {
     const comboId = formState?.foodCombo?.id;
     if (!comboId) return;
     setFormState((prev) => ({
       ...prev,
       foodCombo: {
         name: `${formState.foodCombo?.name ?? "Food Combo"} Copy`,
-        items: formState.foodCombo?.items,
+        items: formState.foodCombo?.items ?? foodCombo?.items ?? [],
       },
     }));
-  };
+  }, [formState, foodCombo]);
+
+  const currentArrivalTime = useMemo(() => {
+    return formState?.arrivalTime ? new Date(formState.arrivalTime) : null;
+  }, [formState?.arrivalTime]);
 
   return (
     <Form
@@ -59,10 +72,8 @@ export default function ScheduledDeliveryForm(p: {
       </h1>
       <Form.Item label="Delivery Date" required>
         <DatePicker
-          value={
-            formState?.arrivalTime ? new Date(formState.arrivalTime) : null
-          }
-          showTime={{ format: "HH:mm" }}
+          value={currentArrivalTime}
+          showTime={timeConfig}
           onChange={(date) => {
             if (!date) return;
             setFormState((prev) => ({
@@ -78,7 +89,7 @@ export default function ScheduledDeliveryForm(p: {
         help="You can create a new combination or use a previously saved combination"
       >
         <FoodComboSelectionList
-          value={p.delivery?.foodCombo?.id}
+          value={props.delivery?.foodCombo?.id}
           onSelectNew={() => {
             setFormState((prev) => ({
               ...prev,
@@ -127,3 +138,5 @@ export default function ScheduledDeliveryForm(p: {
 const pastDayPredicate = (current: Date) => {
   return current && current < endOfDay(new Date());
 };
+
+const timeConfig = { format: "HH:mm" };

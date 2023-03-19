@@ -1,19 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { FoodCombo } from "../api/client";
-import { useFoodCombos } from "../stores/food-combos";
+import { useNamedFoodCombo, useNamedFoodCombos } from "../stores/food-combos";
 
-export default function FoodComboItemList(p: { foodCombo: FoodCombo }) {
-  const { loadItems } = useFoodCombos();
+/**
+ * Presents readonly list of items in food combo
+ */
+export default function FoodComboItemList(props: { foodCombo: FoodCombo }) {
+  const { loadItems } = useNamedFoodCombos();
+  const { foodCombo } = useNamedFoodCombo({
+    id: props.foodCombo.id
+  })
 
   useEffect(() => {
-    if (!p.foodCombo.items && p.foodCombo.id) {
-      loadItems(p.foodCombo.id);
+    if (!props.foodCombo.items && props.foodCombo.id) {
+      loadItems(props.foodCombo.id);
     }
-  }, [p.foodCombo]);
+  }, [props.foodCombo]);
+
+  const items = foodCombo?.items ?? props.foodCombo.items ?? [];
 
   return (
     <ul>
-      {p.foodCombo.items?.map((item, index) => (
+      {items.map((item) => (
         <li key={item.id}>
           <div style={{ fontWeight: "bold" }}>{item.name}</div>
           <div>{item.description}</div>

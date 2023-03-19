@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FoodCombo, FoodItem } from "../api/client";
 import Input from "antd/es/input";
 import Form from "antd/es/form";
@@ -8,20 +8,27 @@ import CloseOutlinedIcon from "@ant-design/icons/CloseOutlined";
 import PlusOutlinedIcon from "@ant-design/icons/PlusOutlined";
 import TextArea from "antd/es/input/TextArea";
 
-export default function FoodComboBuilderForm(p: {
+/**
+ * Presents form for editing food combinations
+ */
+export default function FoodComboBuilderForm(props: {
   combo: FoodCombo;
   onChange: (combo: FoodCombo) => void;
 }) {
+  // Newly added item to be added on next change
   const [newItem, setNewItem] = useState<FoodItem | null>(
-    (p.combo.items?.length ?? 0) === 0 ? {} : null
+    (props.combo.items?.length ?? 0) === 0 ? {} : null
   );
-  const items = useMemo(() => {
-    if (!newItem) return p.combo.items ?? [];
-    return (p.combo.items ?? []).concat(newItem);
-  }, [p.combo, newItem]);
 
+  // List of items currently shown
+  const items = useMemo(() => {
+    if (!newItem) return props.combo.items ?? [];
+    return (props.combo.items ?? []).concat(newItem);
+  }, [props.combo, newItem]);
+
+  // Update an item at specific index
   const updateAt = (index: number, update: (item: FoodItem) => FoodItem) => ({
-    ...p.combo,
+    ...props.combo,
     items: items.map((item, curIdx) => {
       if (curIdx !== index) return item;
       return update(item);
@@ -35,9 +42,9 @@ export default function FoodComboBuilderForm(p: {
         help="Naming combinations helps you quickly them in future deliveries"
       >
         <Input
-          value={p.combo.name}
+          value={props.combo.name}
           onChange={(e) => {
-            p.onChange({ ...p.combo, name: e.target.value });
+            props.onChange({ ...props.combo, name: e.target.value });
           }}
         />
       </Form.Item>
@@ -74,8 +81,8 @@ export default function FoodComboBuilderForm(p: {
                 }}
                 onClick={() => {
                   if (newItem) setNewItem(null);
-                  p.onChange({
-                    ...p.combo,
+                  props.onChange({
+                    ...props.combo,
                     items: items.slice(0, idx).concat(items.slice(idx + 1)),
                   });
                 }}
@@ -91,7 +98,7 @@ export default function FoodComboBuilderForm(p: {
                   onChange={(e) => {
                     const name = e.target.value;
                     if (newItem) setNewItem(null);
-                    p.onChange(
+                    props.onChange(
                       updateAt(idx, (item) => ({
                         ...item,
                         name,
@@ -109,7 +116,7 @@ export default function FoodComboBuilderForm(p: {
                   onChange={(e) => {
                     const description = e.target.value;
                     if (newItem) setNewItem(null);
-                    p.onChange(
+                    props.onChange(
                       updateAt(idx, (item) => ({
                         ...item,
                         description,

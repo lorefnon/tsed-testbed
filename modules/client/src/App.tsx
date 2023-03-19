@@ -1,14 +1,15 @@
-import { Tabs } from "antd";
-import { NumberParam, StringParam, useQueryParam } from "use-query-params";
-import "./App.css";
+import Tabs from "antd/es/tabs";
 import AlertList from "./components/AlertList";
 import ScheduledDeliveryEditor from "./components/ScheduledDeliveryEditor";
 import ScheduledDeliveryList from "./components/ScheduledDeliveryList";
+import { useDeliveryIdParam, useTabParam } from "./utils/query-param-hooks";
+
+import "./App.css";
 
 /* Top level component */
 function App() {
-  const [tabKey, setTabKey] = useQueryParam('tab', StringParam)
-  const [scheduleId] = useQueryParam('scheduleId', NumberParam)
+  const [tabKey, setTabKey] = useTabParam()
+  const [deliveryId] = useDeliveryIdParam()
 
   return (
     <div className="App">
@@ -29,7 +30,7 @@ function App() {
             },
             {
               key: "manage",
-              label: `${scheduleId ? 'Update' : 'Create'} delivery schedule`,
+              label: `${deliveryId ? 'Update' : 'Create'} delivery schedule`,
               children: <ScheduledDeliveryEditor />
             },
           ]}

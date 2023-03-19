@@ -40,8 +40,7 @@ export const useAlerts = () => {
 };
 
 const extractAlertFromError = (error: any): AlertInfoInput => {
-    if (typeof error?.message === "string") {
-        return { type: "error", message: error.message };
-    }
-    return { type: "error", message: "Something went wrong" };
+    let message = error?.body?.message ?? error?.message
+    if (typeof message !== 'string') message = 'Something went wrong'
+    return { type: "error", message };
 };

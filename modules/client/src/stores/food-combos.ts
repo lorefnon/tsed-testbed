@@ -1,5 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
     FoodCombo,
     FoodComboControllerService,
@@ -16,7 +16,7 @@ export const foodCombosAtom = atom<{
     entities: [],
 });
 
-export const useFoodCombos = (opts?: { autoFetch?: boolean }) => {
+export const useNamedFoodCombos = (opts?: { autoFetch?: boolean }) => {
     const [foodCombos, setFoodCombos] = useAtom(foodCombosAtom);
     const { appendError } = useAlerts()
 
@@ -58,3 +58,16 @@ export const useFoodCombos = (opts?: { autoFetch?: boolean }) => {
         loadItems
     };
 };
+
+export const useNamedFoodCombo = (opts?: { id?: number }) => {
+    const [foodCombos] = useAtom(foodCombosAtom);
+
+    const foodCombo = useMemo(() => {
+        if (!opts?.id) return null
+        return foodCombos.entities.find(it => it.id === opts.id)
+    }, [foodCombos, opts?.id])
+
+    return {
+        foodCombo
+    }
+}

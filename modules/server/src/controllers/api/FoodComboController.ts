@@ -14,6 +14,7 @@ export class FoodComboController {
     private foodComboRepo: FoodComboRepo
   ) {}
 
+  /** Find all food combos which were explicitly named */
   @Get("/named")
   @Returns(200, FoodComboListPayload)
   async findAllNamed(): Promise<FoodComboListPayload> {

@@ -5,12 +5,14 @@ import LoaderSection from "./LoaderSection";
 import Alert from "antd/es/alert";
 import Card from "antd/es/card";
 import Button from "antd/es/button";
-import { NumberParam, StringParam, useQueryParam } from "use-query-params";
 import DatePicker from "./DatePicker";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useDeliveryIdParam, useTabParam } from "../utils/query-param-hooks";
 
+/** Presents list of scheduled deliveries */
 export default function ScheduledDeliveryList() {
   const [date, setDate] = useState<Date>(new Date());
+  const [,setDeliveryId] = useDeliveryIdParam()
 
   const dateStr = useMemo(() => {
     return format(date, "yyyy-MM-dd");
@@ -19,6 +21,10 @@ export default function ScheduledDeliveryList() {
   const { entities: deliveries, syncState } = useScheduledDeliveriesForDate({
     date: dateStr,
   });
+
+  useEffect(() => {
+    setDeliveryId(null)
+  }, [])
 
   if (syncState === "pending") {
     return <LoaderSection />;
@@ -59,8 +65,8 @@ export default function ScheduledDeliveryList() {
 
 export function ScheduledDeliveryListItem(p: { delivery: ScheduledDelivery }) {
   if (!p.delivery.foodCombo) return null;
-  const [, setScheduleId] = useQueryParam("scheduleId", NumberParam);
-  const [, setTabKey] = useQueryParam("tab", StringParam);
+  const [, setDeliveryId] = useDeliveryIdParam()
+  const [, setTabKey] = useTabParam()
 
   return (
     <Card
@@ -79,7 +85,7 @@ export function ScheduledDeliveryListItem(p: { delivery: ScheduledDelivery }) {
       <Button
         onClick={() => {
           setTabKey("manage");
-          setScheduleId(p.delivery.id);
+          setDeliveryId(p.delivery.id);
         }}
       >
         Edit Delivery

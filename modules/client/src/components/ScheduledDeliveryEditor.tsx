@@ -1,23 +1,24 @@
 import { useEffect } from "react"
-import { NumberParam, StringParam, useQueryParam } from "use-query-params"
 import { useScheduledDeliveries } from "../stores/scheduled-deliveries"
+import { useDeliveryIdParam, useTabParam } from "../utils/query-param-hooks"
 import ScheduledDeliveryForm from "./ScheduledDeliveryForm"
 
+/** Url param aware page component for creating/updating a single delivery */
 export default function ScheduledDeliveryEditor() {
-  const [scheduleId, setScheduleId] = useQueryParam('scheduleId', NumberParam)
-  const [,setTabKey] = useQueryParam('tab', StringParam)
+  const [deliveryId, setDeliveryId] = useDeliveryIdParam()
+  const [,setTabKey] = useTabParam()
   const scheduledDeliveries = useScheduledDeliveries()
 
-  const delivery = scheduleId ? scheduledDeliveries.byId[scheduleId] : null
+  const delivery = deliveryId ? scheduledDeliveries.byId[deliveryId] : null
 
   useEffect(() => {
-    if (scheduleId && !delivery) {
+    if (deliveryId && !delivery) {
         setTabKey('explore')
-        setScheduleId(null)
+        setDeliveryId(null)
     }
   }, [])
 
-  if (scheduleId && !delivery) return null
+  if (deliveryId && !delivery) return null
 
   return <ScheduledDeliveryForm delivery={delivery} />
 }
