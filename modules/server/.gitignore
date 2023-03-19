@@ -57,3 +57,7 @@ test/**/*.js.map
 .env.development
 
 /data
+
+# Archives
+*.tar
+*.tar.gz
