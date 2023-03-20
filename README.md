@@ -68,6 +68,8 @@ Access application ui at `http://localhost:5173/`.
 
 There is generally no need to restart servers manually.
 
+**Note:** Ports may differ if the default ports are not available. Please review the server logs.
+
 # Deployment
 
 ```

@@ -33,8 +33,8 @@ create table if not exists scheduled_delivery (
         references food_combo (id)
 );
 
-create index idx_food_combo__name
+create index if not exists idx_food_combo__name
 on food_combo (name);
 
-create index idx_scheduled_delivery__arrival_time
+create index if not exists idx_scheduled_delivery__arrival_time
 on scheduled_delivery (arrival_time);
