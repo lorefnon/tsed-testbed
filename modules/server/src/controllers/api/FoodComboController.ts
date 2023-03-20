@@ -1,10 +1,11 @@
 import { Controller } from "@tsed/di";
-import { Get, Property, Returns } from "@tsed/schema";
+import { Get, Property, Required, Returns } from "@tsed/schema";
 import { FoodCombo } from "../../entities/FoodCombo";
 import { FoodComboRepo } from "../../repositories/FoodComboRepo";
 
 class FoodComboListPayload {
   @Property(FoodCombo)
+  @Required()
   entities: FoodCombo[]
 }
 

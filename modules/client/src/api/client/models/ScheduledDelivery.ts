@@ -6,7 +6,7 @@ import type { FoodCombo } from './FoodCombo';
 
 export type ScheduledDelivery = {
     id?: number;
-    foodCombo?: FoodCombo;
-    arrivalTime?: number;
+    foodCombo: FoodCombo;
+    arrivalTime: number;
 };
 

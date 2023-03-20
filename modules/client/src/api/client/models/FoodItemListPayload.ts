@@ -5,6 +5,6 @@
 import type { FoodItem } from './FoodItem';
 
 export type FoodItemListPayload = {
-    entities?: Array<FoodItem>;
+    entities: Array<FoodItem>;
 };
 

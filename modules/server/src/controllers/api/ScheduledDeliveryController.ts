@@ -2,18 +2,20 @@ import { Controller } from "@tsed/di";
 import { BadRequest } from "@tsed/exceptions";
 import { endOfDay, isBefore, parse } from "date-fns";
 import { BodyParams, QueryParams } from "@tsed/platform-params";
-import { Get, Property, Put, Returns } from "@tsed/schema";
+import { Get, Property, Put, Required, Returns } from "@tsed/schema";
 
 import { ScheduledDelivery } from "../../entities/ScheduledDelivery";
 import { ScheduledDeliveryRepo } from "../../repositories/ScheduledDeliveryRepo";
 
 class ScheduledDeliveryPayload {
   @Property()
+  @Required()
   entity: ScheduledDelivery;
 }
 
 class ScheduledDeliveryListPayload {
   @Property(ScheduledDelivery)
+  @Required()
   entities: ScheduledDelivery[];
 }
 

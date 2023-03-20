@@ -1,17 +1,19 @@
 import { Controller } from "@tsed/di";
 import { BodyParams, PathParams } from "@tsed/platform-params";
-import { Get, Property, Put, Returns } from "@tsed/schema";
+import { Get, Property, Put, Required, Returns } from "@tsed/schema";
 import { FoodItem } from "../../entities/FoodItem";
 import { FoodItemRepo } from "../../repositories/FoodItemRepo";
 import { WithId } from "../../utils/types";
 
 class FoodItemPayload {
   @Property()
+  @Required()
   entity: FoodItem;
 }
 
 class FoodItemListPayload {
   @Property(FoodItem)
+  @Required()
   entities: FoodItem[]
 }
 

@@ -5,6 +5,6 @@
 import type { ScheduledDelivery } from './ScheduledDelivery';
 
 export type ScheduledDeliveryPayload = {
-    entity?: ScheduledDelivery;
+    entity: ScheduledDelivery;
 };
 
