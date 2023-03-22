@@ -4,8 +4,9 @@ import { ScheduledDeliveryController } from "./ScheduledDeliveryController";
 import { Server } from "../../Server";
 import { ScheduledDeliveryRepo } from "../../repositories/ScheduledDeliveryRepo";
 import format from "date-fns/format";
+import { addDays } from "date-fns";
 
-describe("HelloWorldController", () => {
+describe("ScheduledDeliveryController", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
   beforeEach(PlatformTest.bootstrap(Server, {
@@ -36,12 +37,12 @@ describe("HelloWorldController", () => {
   });
 
   it("should support POST /scheduled-deliveries", async () => {
-    const now = +new Date()
+    const date = addDays(+new Date(), 1)
     const response = await request
       .put("/scheduled-deliveries")
       .send({
         entity: {
-          arrivalTime: now,
+          arrivalTime: +date,
           foodCombo: {
             name: 'Paneer Platter',
             items: [{
@@ -52,7 +53,7 @@ describe("HelloWorldController", () => {
       })
       .expect('Content-Type', /json/)
       .expect(200)
-    expect(response.body.entity.arrivalTime).toEqual(now)
+    expect(response.body.entity.arrivalTime).toEqual(+date)
   })
 });
 
